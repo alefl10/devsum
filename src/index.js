@@ -1,4 +1,4 @@
-import app from './server/server';
+import app from './api/server';
 import { db } from './config/keys';
 
 const PORT = process.env.PORT || db.PORT;

@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import mongoose from 'mongoose';
+import { posts, profile, users } from './routes/zRoutes';
 import appMiddleware from './middleware/appMiddleware';
 import { db } from '../config/keys';
 
@@ -21,6 +22,9 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 
-// // Use routes
+// Use routes
+app.use('/api/profile', profile);
+app.use('/api/posts', posts);
+app.use('/api/users', users);
 
 export default app;
