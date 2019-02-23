@@ -6,6 +6,7 @@
 
 # private
 src/config/private.js
+src/config/prodKeys.js
 
 # testing
 /coverage
