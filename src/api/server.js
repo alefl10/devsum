@@ -27,4 +27,11 @@ app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 app.use('/api/users', users);
 
+// Error handler
+
+app.use((err, req, res, next) => {
+	console.log(err.error);
+	res.status(err.status).json({ msg: err.msg });
+});
+
 export default app;
