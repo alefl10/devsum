@@ -13,4 +13,7 @@ router.route('/register')
 router.route('/login')
 	.post(controller.postLogin);
 
+router.route('/current')
+	.get(controller.passportAuth, controller.getCurrentUser);
+
 export default router;

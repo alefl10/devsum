@@ -1,5 +1,6 @@
 import gravatar from 'gravatar';
 import bcrypt from 'bcryptjs';
+import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../models/UserModel';
 import { secretOrKey } from '../../config/keys';
@@ -126,6 +127,28 @@ const controller = {
 			}).catch((err) => {
 				next({ msg: 'Error finding User', status: 400, error: err });
 			});
+	},
+
+	// @route GET api/users/current
+	// @desc Performs Passport Authentication
+	// @access Private
+	passportAuth(req, res, next) {
+		passport.authenticate('jwt', { session: false })(req, res, next);
+	},
+
+	getCurrentUser(req, res) {
+		const {
+			id,
+			name,
+			email,
+			avatar,
+		} = req.user;
+		res.json({
+			id,
+			name,
+			email,
+			avatar,
+		});
 	},
 };
 
