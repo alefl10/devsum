@@ -108,7 +108,7 @@ const controller = {
 									avatar: user.avatar,
 								};
 								// Sign Token
-								jwt.sign(payload, 'secretOrKey', { expiresIn: 3600 }, (err, token) => {
+								jwt.sign(payload, secretOrKey, { expiresIn: 3600 }, (err, token) => {
 									if (err) {
 										next({ msg: 'Error signing jwt token', status: 500, error: err });
 									} else {

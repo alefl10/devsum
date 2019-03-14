@@ -4,6 +4,6 @@ module.exports = {
 	db: {
 		mongoURI,
 		PORT,
-		secretOrKey,
 	},
+	secretOrKey,
 };
