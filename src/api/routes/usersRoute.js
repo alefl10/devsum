@@ -10,4 +10,7 @@ router.get('/test', (req, res) => {
 router.route('/register')
 	.post(controller.postRegister);
 
+router.route('/login')
+	.post(controller.postLogin);
+
 export default router;
