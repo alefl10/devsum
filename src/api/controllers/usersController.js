@@ -1,6 +1,8 @@
 import gravatar from 'gravatar';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import User from '../models/UserModel';
+import { secretOrKey } from '../../config/keys';
 
 const helperFcn = {
 	encryptPassword(password) {
@@ -99,7 +101,20 @@ const controller = {
 					helperFcn.decryptPassword(password, user.password)
 						.then((compared) => {
 							if (compared.status === 200) {
-								res.json({ msg: compared.msg });
+								// User matched
+								const payload = {
+									id: user.id,
+									name: user.name,
+									avatar: user.avatar,
+								};
+								// Sign Token
+								jwt.sign(payload, 'secretOrKey', { expiresIn: 3600 }, (err, token) => {
+									if (err) {
+										next({ msg: 'Error signing jwt token', status: 500, error: err });
+									} else {
+										res.json({ success: true, token: `Bearer ${token}` });
+									}
+								});
 							} else {
 								res.status(compared.status).json({ password: compared.password });
 							}
