@@ -139,7 +139,7 @@ const controller = {
 						});
 				}
 			}).catch((err) => {
-				next({ msg: 'Error finding User', status: 400, error: err });
+				next({ msg: 'Error finding User', status: 404, error: err });
 			});
 	},
 
@@ -150,6 +150,9 @@ const controller = {
 		passport.authenticate('jwt', { session: false })(req, res, next);
 	},
 
+	// @route GET api/users/current
+	// @desc Returns current user
+	// @access Private
 	getCurrentUser(req, res) {
 		const {
 			id,
