@@ -59,7 +59,8 @@ const controller = {
 		User.findOne({ email })
 			.then((user) => {
 				if (user) {
-					next({ msg: 'Email already exists', status: 400, error: 'Failed to register new User: Email already exists' });
+					errors.email = 'Email already exists';
+					next({ msg: errors.email, status: 400, error: errors });
 				} else {
 					const { name, password } = req.body;
 					helperFcn.encryptPassword(password)
@@ -80,16 +81,19 @@ const controller = {
 									res.status(200).json(savedUser);
 								})
 								.catch((err) => {
-									next({ msg: 'Error Saving New User', status: 400, error: err });
+									errors.save = 'Error Saving New User';
+									next({ msg: err, status: 400, error: errors });
 								});
 						})
 						.catch((err) => {
-							next({ msg: 'Error Generating Salt', status: 400, error: err });
+							errors.salt = 'Error Generating Salt';
+							next({ msg: err, status: 400, error: errors });
 						});
 				}
 			})
 			.catch((err) => {
-				next({ msg: 'Error finding user Salt', status: 400, error: err });
+				errors.salt = 'Error finding user Salt';
+				next({ msg: err, status: 400, error: errors });
 			});
 	},
 
@@ -124,7 +128,8 @@ const controller = {
 								// Sign Token
 								jwt.sign(payload, secretOrKey, { expiresIn: 3600 }, (err, token) => {
 									if (err) {
-										next({ msg: 'Error signing jwt token', status: 500, error: err });
+										errors.token = 'Error signing jwt token';
+										next({ msg: err, status: 500, error: errors });
 									} else {
 										res.json({ success: true, token: `Bearer ${token}` });
 									}
@@ -139,7 +144,8 @@ const controller = {
 						});
 				}
 			}).catch((err) => {
-				next({ msg: 'Error finding User', status: 404, error: err });
+				errors.user = 'Error finding User';
+				next({ msg: err, status: 404, error: errors });
 			});
 	},
 

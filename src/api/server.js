@@ -30,8 +30,8 @@ app.use('/api/users', users);
 // Error handler
 
 app.use((err, req, res, next) => {
-	console.log(err.error);
-	res.status(err.status).json({ msg: err.msg });
+	console.log(err.msg);
+	res.status(err.status).json(err.error);
 });
 
 export default app;
