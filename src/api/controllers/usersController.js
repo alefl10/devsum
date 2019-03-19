@@ -4,6 +4,8 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../models/UserModel';
 import { secretOrKey } from '../../config/keys';
+import validateResgisterInput from '../validation/register';
+import validateLoginInput from '../validation/login';
 
 const helperFcn = {
 	encryptPassword(password) {
@@ -47,8 +49,13 @@ const controller = {
 	// @desc Register user
 	// @access Public
 	postRegister(req, res, next) {
-		const { email } = req.body;
+		const { errors, isValid } = validateResgisterInput(req.body);
 
+		if (!isValid) {
+			return next({ msg: errors, status: 400, error: errors });
+		}
+
+		const { email } = req.body;
 		User.findOne({ email })
 			.then((user) => {
 				if (user) {
@@ -90,6 +97,12 @@ const controller = {
 	// @desc Login User / Returning JWT Token
 	// @access Public
 	postLogin(req, res, next) {
+		const { errors, isValid } = validateLoginInput(req.body);
+
+		if (!isValid) {
+			return next({ msg: errors, status: 400, error: errors });
+		}
+
 		const { email, password } = req.body;
 
 		// Find user by email
@@ -117,7 +130,8 @@ const controller = {
 									}
 								});
 							} else {
-								res.status(compared.status).json({ password: compared.password });
+								errors.password = compared.password;
+								res.status(compared.status).json({ password: errors });
 							}
 						})
 						.catch((err, reason) => {
