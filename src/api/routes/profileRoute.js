@@ -8,7 +8,7 @@ router.get('/test', (req, res) => {
 });
 
 router.route('/')
-	.get(controller.passportAuth, controller.getCurrentProfile);
-
+	.get(controller.passportAuth, controller.getCurrentProfile)
+	.post(controller.passportAuth, controller.postCurrentProfile);
 
 export default router;

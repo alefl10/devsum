@@ -4,8 +4,8 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../models/UserModel';
 import { secretOrKey } from '../../config/keys';
-import validateResgisterInput from '../validation/register';
-import validateLoginInput from '../validation/login';
+import validateResgisterInput from '../../validation/register';
+import validateLoginInput from '../../validation/login';
 
 const helperFcn = {
 	encryptPassword(password) {

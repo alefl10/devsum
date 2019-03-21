@@ -1,6 +1,7 @@
 import passport from 'passport';
 import Profile from '../models/ProfileModel';
 import User from '../models/UserModel';
+import validateProfileInput from '../../validation/profile';
 
 const controller = {
 	// @route GET api/profile
@@ -18,6 +19,7 @@ const controller = {
 		const { id } = req.user;
 
 		Profile.findOne({ user: id })
+			.populate('user', ['name', 'avatar'])
 			.then((profile) => {
 				if (!profile) {
 					errors.noProfile = 'There is no profile for this user';
@@ -36,8 +38,14 @@ const controller = {
 	// @desc Posts profile for current user
 	// @access Private
 	postCurrentProfile(req, res, next) {
-		const errors = {};
+		const { errors, isValid } = validateProfileInput(req.body);
 		const { id } = req.user;
+
+		// Check Validation
+		if (!isValid) {
+			return next({ msg: errors, status: 400, error: errors });
+		}
+
 		// Get fields
 		const profileFields = {};
 		profileFields.user = req.user.id;
