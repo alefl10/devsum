@@ -29,8 +29,76 @@ const controller = {
 				}
 			})
 			.catch((err) => {
-				errors.error = err;
+				errors.findOneId = err;
 				next({ msg: err, status: 404, error: errors });
+			});
+	},
+
+	// @route GET api/profile/all
+	// @desc Gets all user profiles
+	// @access Public
+	getAllProfiles(req, res, next) {
+		const errors = {};
+		Profile.find()
+			.populate('user', ['name', 'avatar'])
+			.then((profiles) => {
+				if (!profiles) {
+					errors.noProfiles = 'There are no profiles';
+					res.status(404).json(errors);
+				} else {
+					res.json(profiles);
+				}
+			})
+			.catch((err) => {
+				errors.findAllProfiles = err;
+				next({ msg: errors, status: 500, error: errors });
+			});
+	},
+
+	// @route GET api/profile/handle/:handle
+	// @desc Gets profile by user handle
+	// @access Public
+	getHandleProfile(req, res, next) {
+		const errors = {};
+		const { handle } = req.params;
+
+		Profile.findOne({ handle })
+			.populate('user', ['name', 'avatar'])
+			.then((profile) => {
+				if (!profile) {
+					errors.noProfile = 'There is no profile for this user handle';
+					res.status(404).json(errors);
+				} else {
+					res.json(profile);
+				}
+			})
+			.catch((err) => {
+				errors.findOneHandle = err;
+				next({ msg: errors, status: 500, error: errors });
+			});
+	},
+
+	// @route GET api/profile/user/:user_id
+	// @desc Gets profile by user id
+	// @access Public
+	getUserIdProfile(req, res, next) {
+		const errors = {};
+		const { userId } = req.params;
+		console.log(req.params);
+		Profile.findOne({ user: userId })
+			.populate('user', ['name', 'avatar'])
+			.then((profile) => {
+				if (!profile) {
+					errors.noProfile = 'There is no profile for this user handle';
+					res.status(404).json(errors);
+				} else {
+					res.json(profile);
+				}
+			})
+			.catch((err) => {
+				errors.findOneId = 'There is no profile for that user id';
+				errors.error = err;
+				next({ msg: errors, status: 500, error: errors });
 			});
 	},
 

@@ -11,4 +11,13 @@ router.route('/')
 	.get(controller.passportAuth, controller.getCurrentProfile)
 	.post(controller.passportAuth, controller.postCurrentProfile);
 
+router.route('/all')
+	.get(controller.getAllProfiles);
+
+router.route('/handle/:handle')
+	.get(controller.getHandleProfile);
+
+router.route('/user/:userId')
+	.get(controller.getUserIdProfile);
+
 export default router;
