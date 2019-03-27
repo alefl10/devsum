@@ -27,7 +27,6 @@ export default function validateProfileInput(data) {
 	}
 
 	if (Validator.isEmpty(status)) {
-		console.log('Hello!');
 		errors.status = 'Status field is required';
 	}
 

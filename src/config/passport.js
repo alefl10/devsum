@@ -1,6 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import User from '../api/models/UserModel';
-import { secretOrKey } from '../config/keys';
+import { secretOrKey } from './keys';
 
 // The spelling of this options matters - check documentation
 const opts = {

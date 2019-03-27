@@ -203,7 +203,38 @@ const controller = {
 				profile.save()
 					.then(savedProfile => res.json(savedProfile))
 					.catch((err) => {
-						errors.save = 'Error saving Profile Experience';
+						errors.save = 'ERROR - Could not save Profile Experience';
+						next({ msg: err, status: 500, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 404, error: errors });
+			});
+	},
+
+	// @route DELETE api/profile/experience/:expId
+	// @desc Deletes experience from profile
+	// @access Private
+	deleteExperience(req, res, next) {
+		const { id } = req.user;
+		const { expId } = req.params;
+		const errors = {};
+
+		Profile.findOne({ user: id })
+			.then((profile) => {
+				// Get index of experience item that needs to be removed
+				const removeIndex = profile.experience
+					.map(item => item.id)
+					.indexOf(expId);
+
+				// Remove experience item from experience array
+				profile.experience.splice(removeIndex, 1);
+
+				profile.save()
+					.then(savedProfile => res.json(savedProfile))
+					.catch((err) => {
+						errors.save = 'ERROR - Could not delete Profile Experience';
 						next({ msg: err, status: 500, error: errors });
 					});
 			})
@@ -249,6 +280,61 @@ const controller = {
 			})
 			.catch((err) => {
 				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 404, error: errors });
+			});
+	},
+
+	// @route DELETE api/profile/education/:eduId
+	// @desc Deletes education from profile
+	// @access Private
+	deleteEducation(req, res, next) {
+		const { id } = req.user;
+		const { eduId } = req.params;
+		const errors = {};
+
+		Profile.findOne({ user: id })
+			.then((profile) => {
+				// Get index of experience item that needs to be removed
+				const removeIndex = profile.education
+					.map(item => item.id)
+					.indexOf(eduId);
+
+				// Remove experience item from experience array
+				profile.education.splice(removeIndex, 1);
+
+				profile.save()
+					.then(savedProfile => res.json(savedProfile))
+					.catch((err) => {
+						errors.save = 'ERROR - Could not delete Profile Education';
+						next({ msg: err, status: 500, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 404, error: errors });
+			});
+	},
+
+	// @route DELETE api/profile/
+	// @desc Deletes user and its profile
+	// @access Private
+	deleteUserAndProfile(req, res, next) {
+		const { id } = req.user;
+		const errors = {};
+
+		Profile.findOneAndDelete({ user: id })
+			.then(() => {
+				User.findOneAndDelete({ _id: id })
+					.then(() => {
+						res.json({ success: true });
+					})
+					.catch((err) => {
+						errors.findDelete = 'ERROR - Could not find and remove user';
+						next({ msg: err, status: 404, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.findDelete = 'ERROR - Could not find and remove profile';
 				next({ msg: err, status: 404, error: errors });
 			});
 	},
