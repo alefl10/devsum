@@ -20,4 +20,10 @@ router.route('/handle/:handle')
 router.route('/user/:userId')
 	.get(controller.getUserIdProfile);
 
+router.route('/experience')
+	.post(controller.passportAuth, controller.postExperience);
+
+router.route('/education')
+	.post(controller.passportAuth, controller.postEducation);
+
 export default router;

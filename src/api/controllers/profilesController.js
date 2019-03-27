@@ -2,6 +2,8 @@ import passport from 'passport';
 import Profile from '../models/ProfileModel';
 import User from '../models/UserModel';
 import validateProfileInput from '../../validation/profile';
+import validateExperienceInput from '../../validation/experience';
+import validateEducationInput from '../../validation/education';
 
 const controller = {
 	// @route GET api/profile
@@ -29,7 +31,7 @@ const controller = {
 				}
 			})
 			.catch((err) => {
-				errors.findOneId = err;
+				errors.findOne = 'ERROR - Could not find user';
 				next({ msg: err, status: 404, error: errors });
 			});
 	},
@@ -39,6 +41,7 @@ const controller = {
 	// @access Public
 	getAllProfiles(req, res, next) {
 		const errors = {};
+
 		Profile.find()
 			.populate('user', ['name', 'avatar'])
 			.then((profiles) => {
@@ -50,8 +53,8 @@ const controller = {
 				}
 			})
 			.catch((err) => {
-				errors.findAllProfiles = err;
-				next({ msg: errors, status: 500, error: errors });
+				errors.findAll = 'ERROR - Could not find all profiles';
+				next({ msg: err, status: 404, error: errors });
 			});
 	},
 
@@ -73,8 +76,8 @@ const controller = {
 				}
 			})
 			.catch((err) => {
-				errors.findOneHandle = err;
-				next({ msg: errors, status: 500, error: errors });
+				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 404, error: errors });
 			});
 	},
 
@@ -84,7 +87,7 @@ const controller = {
 	getUserIdProfile(req, res, next) {
 		const errors = {};
 		const { userId } = req.params;
-		console.log(req.params);
+
 		Profile.findOne({ user: userId })
 			.populate('user', ['name', 'avatar'])
 			.then((profile) => {
@@ -96,9 +99,8 @@ const controller = {
 				}
 			})
 			.catch((err) => {
-				errors.findOneId = 'There is no profile for that user id';
-				errors.error = err;
-				next({ msg: errors, status: 500, error: errors });
+				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 500, error: errors });
 			});
 	},
 
@@ -145,7 +147,7 @@ const controller = {
 					Profile.findOneAndUpdate({ user: id }, { $set: profileFields }, { new: true })
 						.then(updatedProfile => res.json(updatedProfile))
 						.catch((err) => {
-							errors.updateProfile = 'Error updating Profile';
+							errors.updateProfile = 'ERROR - Could not update Profile';
 							next({ msg: err, status: 500, error: errors });
 						});
 				} else {
@@ -156,18 +158,98 @@ const controller = {
 						.then(savedProfile => res.json(savedProfile))
 						.catch((err) => {
 							if (err.code === 11000) {
-								errors.handle = 'Handle already exists';
+								errors.handle = 'ERROR - Handle already exists';
 								next({ msg: err, status: 500, error: errors });
 							} else {
-								errors.save = 'Error saving new profile';
+								errors.save = 'ERROR - Could not save new profile';
 								next({ msg: err, status: 500, error: errors });
 							}
 						});
 				}
 			})
 			.catch((err) => {
-				errors.error = err;
-				next({ msg: 'Error finding User', status: 404, error: errors.error });
+				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 404, error: errors });
+			});
+	},
+
+	// @route POST api/profile/experience
+	// @desc Add experience to profile
+	// @access Private
+	postExperience(req, res, next) {
+		const { id } = req.user;
+		const { errors, isValid } = validateExperienceInput(req.body);
+
+		// Check Validation
+		if (!isValid) {
+			return next({ msg: errors, status: 400, error: errors });
+		}
+
+		Profile.findOne({ user: id })
+			.then((profile) => {
+				const newExp = {
+					title: req.body.title,
+					company: req.body.company,
+					location: req.body.location,
+					from: req.body.from,
+					to: req.body.to,
+					current: req.body.current,
+					description: req.body.description,
+				};
+
+				// Add to experience array
+				profile.experience.unshift(newExp);
+
+				profile.save()
+					.then(savedProfile => res.json(savedProfile))
+					.catch((err) => {
+						errors.save = 'Error saving Profile Experience';
+						next({ msg: err, status: 500, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 404, error: errors });
+			});
+	},
+
+	// @route POST api/profile/education
+	// @desc Add education to profile
+	// @access Private
+	postEducation(req, res, next) {
+		const { id } = req.user;
+		const { errors, isValid } = validateEducationInput(req.body);
+
+		// Check Validation
+		if (!isValid) {
+			return next({ msg: errors, status: 400, error: errors });
+		}
+
+		Profile.findOne({ user: id })
+			.then((profile) => {
+				const newEdu = {
+					school: req.body.school,
+					degree: req.body.degree,
+					studyField: req.body.studyField,
+					from: req.body.from,
+					to: req.body.to,
+					current: req.body.current,
+					description: req.body.description,
+				};
+
+				// Add to experience array
+				profile.education.unshift(newEdu);
+
+				profile.save()
+					.then(savedProfile => res.json(savedProfile))
+					.catch((err) => {
+						errors.save = 'Error saving Profile Education';
+						next({ msg: err, status: 500, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.findOne = 'ERROR - Could not find user';
+				next({ msg: err, status: 404, error: errors });
 			});
 	},
 };

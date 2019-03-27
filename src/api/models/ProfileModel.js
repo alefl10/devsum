@@ -75,7 +75,7 @@ const ProfileSchema = new Schema({
 				type: String,
 				required: true,
 			},
-			sudyField: {
+			studyField: {
 				type: String,
 				required: true,
 			},
