@@ -1,9 +1,9 @@
 import { Router } from 'express';
+import controller from '../controllers/postsController';
 
 const router = Router();
 
-router.get('/test', (req, res) => {
-	res.json({ msg: 'Posts route works' });
-});
+router.route('/')
+	.post(controller.passportAuth, controller.postPost);
 
 export default router;

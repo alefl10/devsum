@@ -6,7 +6,7 @@ import validateExperienceInput from '../../validation/experience';
 import validateEducationInput from '../../validation/education';
 
 const controller = {
-	// @route GET api/profile
+	// @route Authentication Middleware
 	// @desc Performs Passport Authentication
 	// @access Private
 	passportAuth(req, res, next) {

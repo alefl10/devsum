@@ -29,7 +29,7 @@ app.use('/api/users', users);
 
 // Error handler
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
 	console.log(err.msg);
 	const status = err.status || 500;
 	res.status(status).json(err.error);
