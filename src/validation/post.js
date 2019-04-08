@@ -13,7 +13,7 @@ export default function validateLoginInput(data) {
 	}
 
 	if (!Validator.isLength(text, { min: 10, max: 300 })) {
-		errors.text = 'Post must be bbetween 10 and 300 characters';
+		errors.text = 'Post must be between 10 and 300 characters';
 	}
 
 	return { errors, isValid: isEmpty(errors) };
