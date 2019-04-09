@@ -11,4 +11,7 @@ router.route('/:postId')
 	.get(controller.getPost)
 	.delete(controller.passportAuth, controller.deletePost);
 
+router.route('/like/:postId')
+	.post(controller.passportAuth, controller.likePost);
+
 export default router;

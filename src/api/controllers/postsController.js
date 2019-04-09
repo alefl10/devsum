@@ -78,7 +78,7 @@ const controller = {
 		const { postId } = req.params;
 		const errors = {};
 
-		Profile.find({ user: id })
+		Profile.findOne({ user: id })
 			.then((profile) => {
 				Post.findById(postId)
 					.then((post) => {
@@ -105,6 +105,50 @@ const controller = {
 				next({ msg: err, status: 500, error: errors });
 			});
 	},
+	
+	// @route POST api/posts/like/:id
+	// @desc Delete a post
+	// @access Private
+	likePost(req, res, next) {
+		const { id } = req.user;
+		const { postId } = req.params;
+		const errors = {};
+
+		Profile.findOne({ user: id })
+			.then((profile) => {
+				Post.findById(postId)
+					.then((post) => {
+						// Check if user has already liked this post
+						if (post.likes.filter(like => like.user.toString() === id).length > 0) {
+							// Get index of likes item that needs to be removed
+							const removeIndex = post.likes
+								.map(item => item.user.toString())
+								.indexOf(id);
+								
+							// Remove experience item from experience array - Unlike
+							post.likes.splice(removeIndex, 1);
+						} else {
+							// Add user ID to likes array - Like
+							post.likes.unshift({ user: id });
+						}
+
+						post.save()
+							.then(savedPost => res.json(savedPost))
+							.catch((err) => {
+								errors.find = 'ERROR - Could not save your like';
+								next({ msg: err, status: 500, error: errors });
+							});
+					})
+					.catch((err) => {
+						errors.find = 'ERROR - Could not like that post';
+						next({ msg: err, status: 500, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.find = 'ERROR - Could not find user with that id';
+				next({ msg: err, status: 500, error: errors });
+			});
+	}
 
 };
 
