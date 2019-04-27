@@ -1,6 +1,4 @@
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
-import { secretOrKey } from '../../config/keys';
 import Post from '../models/PostsModel';
 import validatePostInput from '../../validation/post';
 import Profile from '../models/ProfileModel';
@@ -105,7 +103,7 @@ const controller = {
 				next({ msg: err, status: 500, error: errors });
 			});
 	},
-	
+
 	// @route POST api/posts/like/:postId
 	// @desc Post a like - like/unlike
 	// @access Private
