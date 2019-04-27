@@ -14,4 +14,10 @@ router.route('/:postId')
 router.route('/like/:postId')
 	.post(controller.passportAuth, controller.likePost);
 
+router.route('/comment/:postId')
+	.post(controller.passportAuth, controller.commentPost);
+
+router.route('/comment/:postId/:commentId')
+	.delete(controller.passportAuth, controller.deleteComment);
+
 export default router;

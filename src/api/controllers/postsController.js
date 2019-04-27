@@ -106,8 +106,8 @@ const controller = {
 			});
 	},
 	
-	// @route POST api/posts/like/:id
-	// @desc Delete a post
+	// @route POST api/posts/like/:postId
+	// @desc Post a like - like/unlike
 	// @access Private
 	likePost(req, res, next) {
 		const { id } = req.user;
@@ -124,8 +124,8 @@ const controller = {
 							const removeIndex = post.likes
 								.map(item => item.user.toString())
 								.indexOf(id);
-								
-							// Remove experience item from experience array - Unlike
+
+							// Remove like item from likes array - Unlike
 							post.likes.splice(removeIndex, 1);
 						} else {
 							// Add user ID to likes array - Like
@@ -148,7 +148,81 @@ const controller = {
 				errors.find = 'ERROR - Could not find user with that id';
 				next({ msg: err, status: 500, error: errors });
 			});
-	}
+	},
+
+	// @route POST api/posts/comment/:postId
+	// @desc Post a comment a post
+	// @access Private
+	commentPost(req, res, next) {
+		const { id } = req.user;
+		const { postId } = req.params;
+		const { text, name, avatar } = req.body;
+		const { errors, isValid } = validatePostInput(req.body);
+
+		// Check Validation
+		if (!isValid) {
+			return next({ msg: errors, status: 400, error: errors });
+		}
+
+		Post.findById(postId)
+			.then((post) => {
+				const newComment = {
+					text,
+					name,
+					avatar,
+					user: id,
+				};
+
+				// Add to comments array
+				post.comments.unshift(newComment);
+
+				post.save()
+					.then(savedPost => res.json(savedPost))
+					.catch((err) => {
+						errors.find = 'ERROR - Could not save your like';
+						next({ msg: err, status: 500, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.find = 'ERROR - Could not find post with that id';
+				next({ msg: err, status: 500, error: errors });
+			});
+	},
+
+	// @route DELETE api/posts/comment/:postId/:commentId
+	// @desc Delete a comment a post
+	// @access Private
+	deleteComment(req, res, next) {
+		const { postId, commentId } = req.params;
+		const errors = {};
+
+		Post.findById(postId)
+			.then((post) => {
+				// Check if post exists
+				if (post.comments.filter(comment => comment._id.toString() === commentId).length === 0) {
+					return res.status(404).json({ commentDoesNotexist: 'Comment does not exist' });
+				}
+
+				// Get index of comment item that needs to be removed
+				const removeIndex = post.comments
+					.map(item => item.user.toString())
+					.indexOf(commentId);
+
+				// Remove comment item from comments array - Unlike
+				post.comments.splice(removeIndex, 1);
+
+				post.save()
+					.then(savedPost => res.json(savedPost))
+					.catch((err) => {
+						errors.find = 'ERROR - Could not save your like';
+						next({ msg: err, status: 500, error: errors });
+					});
+			})
+			.catch((err) => {
+				errors.find = 'ERROR - Could not find post with that id';
+				next({ msg: err, status: 500, error: errors });
+			});
+	},
 
 };
 
