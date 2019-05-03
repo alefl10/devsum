@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
@@ -8,21 +9,20 @@ import Login from './components/auth/Login';
 import './App.css';
 
 function App() {
-  return (
-    <Router>
-        <div className="App">
-        <Navbar />
-        <Route exact path="/" component={ Landing } /> {/* exact prevents showing content from multiple routes on the same page */}
-        <div className="container">
-            <Route exact path="/register" component={ Register } />
-            <Route exact path="/login" component={ Login } />
-        </div>
-        <Footer />
-        </div>
-    </Router>
-  );
+	return (
+		<Router>
+			<div className="App">
+				<Navbar />
+				{/* exact prevents showing content from multiple routes on the same page */}
+				<Route exact path="/" component={Landing} />
+				<div className="container">
+					<Route exact path="/register" component={Register} />
+					<Route exact path="/login" component={Login} />
+				</div>
+				<Footer />
+			</div>
+		</Router>
+	);
 }
-
-
 
 export default App;
