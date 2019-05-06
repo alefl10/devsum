@@ -77,9 +77,7 @@ const controller = {
 								avatar,
 							});
 							newUser.save()
-								.then((savedUser) => {
-									res.status(200).json(savedUser);
-								})
+								.then(savedUser => res.status(200).json(savedUser))
 								.catch((err) => {
 									errors.save = 'Error Saving New User';
 									next({ msg: err, status: 400, error: errors });
