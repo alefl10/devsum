@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 
-export class Login extends Component {
+class Login extends Component {
 	constructor() {
 		super();
 		this.state = {
