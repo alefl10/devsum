@@ -1,33 +1,13 @@
-/* eslint-disable react/jsx-indent */
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './store';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import Landing from './components/layout/Landing';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
-import './App.css';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
+import actions from './redux/actions/actionsMaster';
+import Main from './components/Main';
 
+const mapStateToProps = state => ({ auth: state.auth, errors: state.errors });
 
-function App() {
-	return (
-		<Provider store={store}>
-			<Router>
-				<div className="App">
-					<Navbar />
-					{/* exact prevents showing content from multiple routes on the same page */}
-					<Route exact path="/" component={Landing} />
-					<div className="container">
-						<Route exact path="/register" component={Register} />
-						<Route exact path="/login" component={Login} />
-					</div>
-					<Footer />
-				</div>
-			</Router>
-		</Provider>
-	);
-}
+const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+
+const App = withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
 
 export default App;

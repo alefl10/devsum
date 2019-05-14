@@ -2,10 +2,7 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import classnames from 'classnames'; // Useful package for conditional HTML classes
-import { connect } from 'react-redux'; // Needed when using redux in a React Component
-import { registerUser } from '../../actions/authActions';
 
 class Register extends Component {
 	constructor() {
@@ -19,6 +16,14 @@ class Register extends Component {
 		};
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+	}
+
+	componentDidMount() {
+		// eslint-disable-next-line react/destructuring-assignment
+		const { auth, history } = this.props;
+		if (auth.isAuthenticated) {
+			history.push('/dashboard');
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -110,20 +115,13 @@ class Register extends Component {
 
 Register.propTypes = {
 	registerUser: PropTypes.func.isRequired,
-	// auth: PropTypes.shape({
-	// 	isAuthenticated: PropTypes.bool.isRequired,
-	// 	user: PropTypes.shape({
-	// 		name: PropTypes.string.isRequired,
-	// 		email: PropTypes.string.isRequired,
-	// 		password: PropTypes.string.isRequired,
-	// 		password2: PropTypes.string.isRequired,
-	// 	}).isRequired,
-	// }).isRequired,
+	auth: PropTypes.shape({
+		isAuthenticated: PropTypes.bool.isRequired,
+		user: PropTypes.shape({}).isRequired,
+	}).isRequired,
 	errors: PropTypes.shape({}).isRequired,
 	history: PropTypes.shape({}).isRequired,
 };
 
-const mapStateToProps = state => ({ auth: state.auth, errors: state.errors });
 
-// withRouter allows to redirect from redux actions
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default Register;

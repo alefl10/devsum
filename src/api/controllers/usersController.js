@@ -134,7 +134,7 @@ const controller = {
 								});
 							} else {
 								errors.password = compared.password;
-								res.status(compared.status).json({ password: errors });
+								res.status(compared.status).json(errors);
 							}
 						})
 						.catch((err, reason) => {

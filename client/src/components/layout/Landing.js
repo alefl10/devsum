@@ -1,9 +1,17 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-
 class Landing extends Component {
+	componentDidMount() {
+		// eslint-disable-next-line react/destructuring-assignment
+		const { auth, history } = this.props;
+		if (auth.isAuthenticated) {
+			history.push('/dashboard');
+		}
+	}
+
 	render() {
 		return (
 			<div>
@@ -26,5 +34,10 @@ class Landing extends Component {
 		);
 	}
 }
+
+Landing.propTypes = {
+	history: PropTypes.shape({}).isRequired,
+	auth: PropTypes.shape({ isAuthenticated: PropTypes.bool.isRequired }).isRequired,
+};
 
 export default Landing;
