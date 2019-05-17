@@ -4,7 +4,11 @@ import { withRouter } from 'react-router-dom';
 import actions from './redux/actions/actionsMaster';
 import Main from './components/Main';
 
-const mapStateToProps = state => ({ auth: state.auth, errors: state.errors });
+const mapStateToProps = state => ({
+	auth: state.auth,
+	profile: state.profile,
+	errors: state.errors,
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 

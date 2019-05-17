@@ -12,8 +12,9 @@ class Navbar extends Component {
 
 	onLogoutClick(e) {
 		e.preventDefault();
-		const { logoutUser } = this.props;
-		logoutUser();
+		const { clearCurrentProfile, logoutUser, history } = this.props;
+		clearCurrentProfile();
+		logoutUser(history);
 	}
 
 	render() {
@@ -75,10 +76,12 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
 	logoutUser: PropTypes.func.isRequired,
+	clearCurrentProfile: PropTypes.func.isRequired,
 	auth: PropTypes.shape({
 		isAuthenticated: PropTypes.bool.isRequired,
 		user: PropTypes.shape({}).isRequired,
 	}).isRequired,
+	history: PropTypes.shape({}).isRequired,
 };
 
 export default Navbar;

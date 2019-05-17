@@ -7,11 +7,13 @@ import jwtDecode from 'jwt-decode';
 import store from '../redux/store';
 import setAuthToken from '../utils/setAuthToken';
 import { setCurrentUser, logoutUser } from '../redux/actions/authActions';
+import { clearCurrentProfile } from '../redux/actions/profileActions';
 import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
 import Landing from './layout/Landing';
 import Register from './auth/Register';
 import Login from './auth/Login';
+import Dashboard from './dashboard/Dashboard';
 import './Main.css';
 
 // Check for token - this allows to keep logged in users info after refreshing website
@@ -27,7 +29,8 @@ if (localStorage.jwtToken) {
 	if (decoded.exp < currentTime) {
 		// Logout user
 		store.dispatch(logoutUser());
-		// TODO: Clear current Profile
+		// Clear current Profile
+		store.dispatch(clearCurrentProfile);
 		// Redirect to login
 		window.location.href = '/login';
 	}
@@ -62,6 +65,15 @@ function Main(props) {
 					render={() => (
 						<div>
 							<Login {...props} />
+						</div>
+					)}
+				/>
+				<Route
+					exact
+					path="/dashboard"
+					render={() => (
+						<div>
+							<Dashboard {...props} />
 						</div>
 					)}
 				/>

@@ -34,7 +34,7 @@ export const loginUser = userData => (dispatch) => {
 		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = history => (dispatch) => {
 	// Remove token from localStorage
 	// eslint-disable-next-line no-undef
 	localStorage.removeItem('jwtToken');
@@ -44,4 +44,5 @@ export const logoutUser = () => (dispatch) => {
 
 	// Set current user to an empty object which will set isAuthenticated to false
 	dispatch(setCurrentUser({}));
+	history.push('/');
 };
