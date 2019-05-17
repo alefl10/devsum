@@ -2,18 +2,20 @@
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/jsx-indent */
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom'; // Switch is necessary for the private route redirect
 import jwtDecode from 'jwt-decode';
 import store from '../redux/store';
 import setAuthToken from '../utils/setAuthToken';
 import { setCurrentUser, logoutUser } from '../redux/actions/authActions';
 import { clearCurrentProfile } from '../redux/actions/profileActions';
+import PrivateRoute from './common/PrivateRoute';
 import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
 import Landing from './layout/Landing';
 import Register from './auth/Register';
 import Login from './auth/Login';
 import Dashboard from './dashboard/Dashboard';
+import CreateProfile from './create-profile/CreateProfile';
 import './Main.css';
 
 // Check for token - this allows to keep logged in users info after refreshing website
@@ -68,15 +70,22 @@ function Main(props) {
 						</div>
 					)}
 				/>
-				<Route
-					exact
-					path="/dashboard"
-					render={() => (
-						<div>
-							<Dashboard {...props} />
-						</div>
-					)}
-				/>
+				<Switch>
+					<PrivateRoute
+						exact
+						path="/dashboard"
+						component={Dashboard}
+						{...props}
+					/>
+				</Switch>
+				<Switch>
+					<PrivateRoute
+						exact
+						path="/create-profile"
+						component={CreateProfile}
+						{...props}
+					/>
+				</Switch>
 			</div>
 			<Footer />
 		</div>
