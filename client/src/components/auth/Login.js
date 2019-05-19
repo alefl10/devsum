@@ -43,7 +43,8 @@ class Login extends Component {
 		e.preventDefault();
 		const { email, password } = this.state;
 		const userData = { email, password };
-		const { loginUser } = this.props;
+		const { loginUser, clearErrors } = this.props;
+		clearErrors();
 		loginUser(userData);
 	}
 
@@ -85,6 +86,7 @@ class Login extends Component {
 
 Login.propTypes = {
 	loginUser: PropTypes.func.isRequired,
+	clearErrors: PropTypes.func.isRequired,
 	errors: PropTypes.shape({}).isRequired,
 	history: PropTypes.shape({}).isRequired,
 	auth: PropTypes.shape({ isAuthenticated: PropTypes.bool.isRequired }).isRequired,

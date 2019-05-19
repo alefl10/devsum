@@ -125,7 +125,7 @@ const controller = {
 		if (req.body.location) profileFields.location = req.body.location;
 		if (req.body.bio) profileFields.bio = req.body.bio;
 		if (req.body.status) profileFields.status = req.body.status;
-		if (req.body.githubusername) profileFields.githubusername = req.body.githubusername;
+		if (req.body.githubUsername) profileFields.githubUsername = req.body.githubUsername;
 
 		// Skills - Spilt into array
 		if (typeof req.body.skills !== 'undefined') {

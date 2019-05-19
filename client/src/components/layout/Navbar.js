@@ -23,8 +23,12 @@ class Navbar extends Component {
 		const authLinks = (
 			<ul className="navbar-nav ml-auto">
 				<li className="nav-item">
+					<Link className="nav-link" to="/dashboard">Dashboard</Link>
+				</li>
+				<li className="nav-item">
 					{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
 					<a href="#" onClick={this.onLogoutClick} className="nav-link">
+						{'Logout  '}
 						<img
 							src={user.avatar}
 							className="rounded-circle"
@@ -33,7 +37,6 @@ class Navbar extends Component {
 							title="You must have a Gravatar connected to your email to display an image"
 						// eslint-disable-next-line react/jsx-one-expression-per-line
 						/>
-						{' Logout'}
 					</a>
 				</li>
 			</ul>

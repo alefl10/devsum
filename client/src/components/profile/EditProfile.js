@@ -7,6 +7,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
+import isEmpty from '../../validation/is-empty';
 
 class CreateProfile extends Component {
 	constructor(props) {
@@ -32,15 +33,61 @@ class CreateProfile extends Component {
 		this.onChange = this.onChange.bind(this);
 	}
 
+	componentDidMount() {
+		const { getCurrentProfile } = this.props;
+		getCurrentProfile();
+	}
+
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.errors) {
 			this.setState({ errors: nextProps.errors });
+		}
+
+		if (nextProps.profile.profile) {
+			const { profile } = nextProps.profile;
+			const { handle, skills, status } = profile;
+			let { company, website, location, githubUsername, bio, social } = profile;
+			// Turn skills array into CSV values
+			const skillsCSV = skills.join(',');
+
+			// Check non-mandatory fields
+			company = isEmpty(company) ? '' : company;
+			website = isEmpty(website) ? '' : website;
+			location = isEmpty(location) ? '' : location;
+			githubUsername = isEmpty(githubUsername) ? '' : githubUsername;
+			bio = isEmpty(bio) ? '' : bio;
+			social = isEmpty(social) ? {} : social;
+			if (Object.keys(social).length > 0) {
+				const { twitter, facebook, linkedin, youtube, instagram } = social;
+				social.twitter = isEmpty(twitter) ? '' : twitter;
+				social.facebook = isEmpty(facebook) ? '' : facebook;
+				social.linkedin = isEmpty(linkedin) ? '' : linkedin;
+				social.instagram = isEmpty(instagram) ? '' : instagram;
+				social.youtube = isEmpty(youtube) ? '' : youtube;
+			}
+
+			// Set component fields state
+			this.setState({
+				handle,
+				company,
+				website,
+				location,
+				status,
+				skills: skillsCSV,
+				githubUsername,
+				bio,
+				twitter: social.twitter,
+				facebook: social.facebook,
+				linkedin: social.linkedin,
+				instagram: social.instagram,
+				youtube: social.youtube,
+			});
 		}
 	}
 
 	onSubmit(e) {
 		e.preventDefault();
-		const { createProfile, history }	= this.props;
+		const { createProfile, clearErrors, history }	= this.props;
 		// eslint-disable-next-line max-len
 		const { handle, status, company, website, location, skills, githubUsername, bio, twitter, facebook, linkedin, youtube, instagram } = this.state;
 		const profileData = {
@@ -58,6 +105,7 @@ class CreateProfile extends Component {
 			youtube,
 			instagram,
 		};
+		clearErrors();
 		createProfile(profileData, history);
 	}
 
@@ -150,8 +198,7 @@ class CreateProfile extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8 m-auto">
-							<h1 className="display-4 text-center">Create Your Profile</h1>
-							<p className="lead text-center">Let&#39;s get some informationto make your profile standout</p>
+							<h1 className="display-4 text-center">Edit Your Profile</h1>
 							<small className="d-block pb-3"><strong>*</strong> required field</small>
 							<form onSubmit={this.onSubmit}>
 								<TextFieldGroup
@@ -246,10 +293,14 @@ class CreateProfile extends Component {
 }
 
 CreateProfile.propTypes = {
-	profile: PropTypes.shape({}).isRequired,
+	profile: PropTypes.shape({ profile: PropTypes.shape({}) }).isRequired,
 	errors: PropTypes.shape({}).isRequired,
 	createProfile: PropTypes.func.isRequired,
+	getCurrentProfile: PropTypes.func.isRequired,
+	clearErrors: PropTypes.func.isRequired,
 	history: PropTypes.shape({}).isRequired,
 };
+
+CreateProfile.default = { profile: PropTypes.shape({ profile: null }).isRequired };
 
 export default CreateProfile;

@@ -36,9 +36,10 @@ class Register extends Component {
 		e.preventDefault();
 		const { name, email, password, password2 } = this.state;
 		const newUser = { name, email, password, password2 };
+		const { registerUser, clearErrors, history } = this.props;
 
-		// eslint-disable-next-line react/destructuring-assignment
-		this.props.registerUser(newUser, this.props.history);
+		clearErrors();
+		registerUser(newUser, history);
 	}
 
 	onChange(e) {
@@ -102,6 +103,7 @@ class Register extends Component {
 
 Register.propTypes = {
 	registerUser: PropTypes.func.isRequired,
+	clearErrors: PropTypes.func.isRequired,
 	auth: PropTypes.shape({
 		isAuthenticated: PropTypes.bool.isRequired,
 		user: PropTypes.shape({}).isRequired,

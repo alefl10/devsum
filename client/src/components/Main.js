@@ -15,7 +15,8 @@ import Landing from './layout/Landing';
 import Register from './auth/Register';
 import Login from './auth/Login';
 import Dashboard from './dashboard/Dashboard';
-import CreateProfile from './create-profile/CreateProfile';
+import CreateProfile from './profile/CreateProfile';
+import EditProfile from './profile/EditProfile';
 import './Main.css';
 
 // Check for token - this allows to keep logged in users info after refreshing website
@@ -83,6 +84,14 @@ function Main(props) {
 						exact
 						path="/create-profile"
 						component={CreateProfile}
+						{...props}
+					/>
+				</Switch>
+				<Switch>
+					<PrivateRoute
+						exact
+						path="/edit-profile"
+						component={EditProfile}
 						{...props}
 					/>
 				</Switch>
