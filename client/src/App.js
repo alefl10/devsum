@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'; // withRouter is required when redirecting from an action
 import actions from './redux/actions/actionsMaster';
 import Main from './components/Main';
 

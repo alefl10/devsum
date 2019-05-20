@@ -17,6 +17,8 @@ import Login from './auth/Login';
 import Dashboard from './dashboard/Dashboard';
 import CreateProfile from './profile/CreateProfile';
 import EditProfile from './profile/EditProfile';
+import AddExperience from './profile/AddExperience';
+import AddEducation from './profile/AddEducation';
 import './Main.css';
 
 // Check for token - this allows to keep logged in users info after refreshing website
@@ -92,6 +94,22 @@ function Main(props) {
 						exact
 						path="/edit-profile"
 						component={EditProfile}
+						{...props}
+					/>
+				</Switch>
+				<Switch>
+					<PrivateRoute
+						exact
+						path="/add-experience"
+						component={AddExperience}
+						{...props}
+					/>
+				</Switch>
+				<Switch>
+					<PrivateRoute
+						exact
+						path="/add-education"
+						component={AddEducation}
 						{...props}
 					/>
 				</Switch>

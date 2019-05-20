@@ -294,12 +294,12 @@ const controller = {
 
 		Profile.findOne({ user: id })
 			.then((profile) => {
-				// Get index of experience item that needs to be removed
+				// Get index of education item that needs to be removed
 				const removeIndex = profile.education
 					.map(item => item.id)
 					.indexOf(eduId);
 
-				// Remove experience item from experience array
+				// Remove education item from experience array
 				profile.education.splice(removeIndex, 1);
 
 				profile.save()

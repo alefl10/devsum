@@ -26,6 +26,36 @@ export const createProfile = (profileData, history) => (dispatch) => {
 		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
+// Add Experience
+export const addExperience = (experience, history) => (dispatch) => {
+	axios.post('/api/profile/experience', experience)
+		// eslint-disable-next-line no-unused-vars
+		.then(res => history.push('/dashboard'))
+		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+// Delete Experience
+export const deleteExperience = expId => (dispatch) => {
+	axios.delete(`/api/profile/experience/${expId}`)
+		.then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
+		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+// Add Education
+export const addEducation = (education, history) => (dispatch) => {
+	axios.post('/api/profile/education', education)
+	// eslint-disable-next-line no-unused-vars
+		.then(res => history.push('/dashboard'))
+		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+// Delete Education
+export const deleteEducation = eduId => (dispatch) => {
+	axios.delete(`/api/profile/education/${eduId}`)
+		.then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
+		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
 // Delete Account & Profile
 export const deleteAccount = () => (dispatch) => {
 	// eslint-disable-next-line no-undef
