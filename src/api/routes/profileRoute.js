@@ -27,6 +27,6 @@ router.route('/education')
 	.post(controller.passportAuth, controller.postEducation);
 
 router.route('/education/:eduId')
-	.delete(controller.passportAuth, controller.deleteExperience);
+	.delete(controller.passportAuth, controller.deleteEducation);
 
 export default router;
