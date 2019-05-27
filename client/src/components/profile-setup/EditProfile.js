@@ -44,6 +44,8 @@ class CreateProfile extends Component {
 			this.setState({ errors: nextProps.errors });
 		}
 
+		if (isEmpty(nextProps.profile.profile)) return;
+
 		if (nextProps.profile.profile) {
 			const { profile } = nextProps.profile;
 			const { handle, skills, status } = profile;

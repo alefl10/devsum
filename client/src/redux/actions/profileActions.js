@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 import axios from 'axios';
-import { SET_CURRENT_USER, GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS } from './types';
+import { SET_CURRENT_USER, GET_PROFILE, GET_PROFILES, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS } from './types';
 
 // Profile loading
 export const setProfileLoading = () => ({ type: PROFILE_LOADING });
@@ -13,9 +13,17 @@ export const getCurrentProfile = () => (dispatch) => {
 	dispatch(setProfileLoading());
 	axios.get('/api/profile')
 		.then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
-
 		// The payload being an empty object means that this user doesno have a profile
 		.catch(() => dispatch({ type: GET_PROFILE, payload: {} }));
+};
+
+// Get Profile by Handle
+export const getProfileByHandle = profileHandle => (dispatch) => {
+	dispatch(setProfileLoading());
+	axios.get(`/api/profile/handle/${profileHandle}`)
+		.then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
+		// The payload being an empty object means that this user doesno have a profile
+		.catch(() => dispatch({ type: GET_PROFILE, payload: null }));
 };
 
 // Create new Profile
@@ -29,8 +37,7 @@ export const createProfile = (profileData, history) => (dispatch) => {
 // Add Experience
 export const addExperience = (experience, history) => (dispatch) => {
 	axios.post('/api/profile/experience', experience)
-		// eslint-disable-next-line no-unused-vars
-		.then(res => history.push('/dashboard'))
+		.then(() => history.push('/dashboard'))
 		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
@@ -44,8 +51,7 @@ export const deleteExperience = expId => (dispatch) => {
 // Add Education
 export const addEducation = (education, history) => (dispatch) => {
 	axios.post('/api/profile/education', education)
-	// eslint-disable-next-line no-unused-vars
-		.then(res => history.push('/dashboard'))
+		.then(() => history.push('/dashboard'))
 		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
@@ -54,6 +60,13 @@ export const deleteEducation = eduId => (dispatch) => {
 	axios.delete(`/api/profile/education/${eduId}`)
 		.then(res => dispatch({ type: GET_PROFILE, payload: res.data }))
 		.catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+};
+
+export const getProfiles = () => (dispatch) => {
+	dispatch(setProfileLoading());
+	axios.get('api/profile/all')
+		.then(res => dispatch({ type: GET_PROFILES, payload: res.data }))
+		.catch(() => dispatch({ type: GET_PROFILES, payload: null }));
 };
 
 // Delete Account & Profile

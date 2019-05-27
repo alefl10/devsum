@@ -129,7 +129,9 @@ const controller = {
 
 		// Skills - Spilt into array
 		if (typeof req.body.skills !== 'undefined') {
-			profileFields.skills = req.body.skills.split(',');
+			profileFields.skills = req.body.skills
+				.split(',')
+				.filter((item, index, inputArray) => inputArray.indexOf(item) === index);
 		}
 
 		// Social

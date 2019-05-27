@@ -15,10 +15,13 @@ import Landing from './layout/Landing';
 import Register from './auth/Register';
 import Login from './auth/Login';
 import Dashboard from './dashboard/Dashboard';
-import CreateProfile from './profile/CreateProfile';
-import EditProfile from './profile/EditProfile';
-import AddExperience from './profile/AddExperience';
-import AddEducation from './profile/AddEducation';
+import CreateProfile from './profile-setup/CreateProfile';
+import EditProfile from './profile-setup/EditProfile';
+import AddExperience from './profile-setup/AddExperience';
+import AddEducation from './profile-setup/AddEducation';
+import Profiles from './profiles/Profiles';
+import Profile from './profile/Profile';
+import NotFound from './profile/NotFound';
 import './Main.css';
 
 // Check for token - this allows to keep logged in users info after refreshing website
@@ -73,6 +76,24 @@ function Main(props) {
 						</div>
 					)}
 				/>
+				<Route
+					exact
+					path="/profiles"
+					render={() => (
+						<div>
+							<Profiles {...props} />
+						</div>
+					)}
+				/>
+				<Route
+					exact
+					path="/profile/:handle"
+					render={({ match }) => (
+						<div>
+							<Profile {...props} match={match} />
+						</div>
+					)}
+				/>
 				<Switch>
 					<PrivateRoute
 						exact
@@ -113,6 +134,11 @@ function Main(props) {
 						{...props}
 					/>
 				</Switch>
+				<Route
+					exact
+					path="/not-found"
+					component={NotFound}
+				/>
 			</div>
 			<Footer />
 		</div>

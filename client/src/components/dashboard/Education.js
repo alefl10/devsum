@@ -23,10 +23,10 @@ class Education extends Component {
 		if (educationArr !== null) {
 			education = educationArr.map(edu => (
 				<tr key={edu._id}>
-					<td>{edu.company}</td>
-					<td>{edu.title}</td>
+					<td>{edu.school}</td>
+					<td>{edu.studyField}</td>
 					<td>
-						<Moment format="YYYY/MM/DD">{edu.from}</Moment> - {edu.to === null
+						<Moment format="YYYY/MM/DD">{edu.from}</Moment> - {edu.current
 							? ('Now')
 							: (<Moment format="YYYY/MM/DD">{edu.to}</Moment>)}
 					</td>
@@ -43,8 +43,8 @@ class Education extends Component {
 				<table className="table">
 					<thead>
 						<tr>
-							<th>Company</th>
-							<th>Title</th>
+							<th>School</th>
+							<th>Degree</th>
 							<th>Years</th>
 							<th />
 						</tr>
