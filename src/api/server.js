@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import mongoose from 'mongoose';
 import { posts, profile, users } from './routes/zRoutes';
@@ -21,8 +22,17 @@ app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 app.use('/api/users', users);
 
-// Error handler
+// Serve static assets if in producion
+if (process.env.NODE_ENV === 'production') {
+	// Static Folder
+	// eslint-disable-next-line no-undef
+	app.use(express.static(path.join(__dirname, '../..', 'client/build')));
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, '../..', 'client', 'build', 'index.html'));
+	});
+}
 
+// Error handler
 app.use((err, req, res, next) => {
 	const status = err.status || 500;
 	res.status(status).json(err.error);
