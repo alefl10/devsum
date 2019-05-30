@@ -1,7 +1,5 @@
 import app from './api/server';
-import { db } from './config/keys';
-
-const PORT = process.env.PORT || db.PORT;
+import { PORT } from './config/keys';
 
 app.on('listening', () => {
 	console.log(`Server is already listening on port ${PORT}`);

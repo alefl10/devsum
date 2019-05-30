@@ -5,8 +5,8 @@
 .pnp.js
 
 # private
-src/config/private.js
-src/config/prodKeys.js
+src/config/private_dev.js
+src/config/private_prod.js
 
 # testing
 /coverage
