@@ -4,9 +4,8 @@
   "description": "Social media Web App for software developers",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
     "client-install": "npm start --prefix client",
-    "server": "babel-node ./src/index.js",
+    "start": "babel-node ./src/index.js",
     "dev-server": "nodemon --exec babel-node ./src/index.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
