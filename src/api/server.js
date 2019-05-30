@@ -10,17 +10,12 @@ const app = express();
 appMiddleware(app);
 
 // Static Folder
-app.use(express.static(path.join(__dirname, '../..', 'public')));
+// app.use(express.static(path.join(__dirname, '../..', 'public')));
 
 // Connect to mongoose
 mongoose.connect(db.mongoURI, { useNewUrlParser: true })
 	.then(() => console.log('MongoDB Connected...'))
 	.catch(err => console.log('Failed to connect to MongoDB\n', err));
-
-// Index Route
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
 
 // Use routes
 app.use('/api/profile', profile);

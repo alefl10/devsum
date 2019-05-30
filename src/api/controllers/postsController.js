@@ -1,6 +1,6 @@
 import passport from 'passport';
 import Post from '../models/PostsModel';
-import validatePostInput from '../../validation/post';
+import validatePostInput from '../../validation/comment';
 import Profile from '../models/ProfileModel';
 
 const controller = {
@@ -26,14 +26,14 @@ const controller = {
 			});
 	},
 
-	// @route GET api/posts/:id
+	// @route GET api/posts/:postid
 	// @desc Get post by post id
 	// @access Public
 	getPost(req, res, next) {
-		const { id } = req.params;
+		const { postId } = req.params;
 		const errors = {};
 
-		Post.findById(id)
+		Post.findById(postId)
 			.then(post => res.json(post))
 			.catch((err) => {
 				errors.find = 'ERROR - Could not find post with that id';
@@ -203,10 +203,10 @@ const controller = {
 
 				// Get index of comment item that needs to be removed
 				const removeIndex = post.comments
-					.map(item => item.user.toString())
+					.map(comment => comment._id.toString())
 					.indexOf(commentId);
 
-				// Remove comment item from comments array - Unlike
+				// Remove comment item from comments array
 				post.comments.splice(removeIndex, 1);
 
 				post.save()

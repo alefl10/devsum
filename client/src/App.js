@@ -7,6 +7,7 @@ import Main from './components/Main';
 const mapStateToProps = state => ({
 	auth: state.auth,
 	profile: state.profile,
+	post: state.post,
 	errors: state.errors,
 });
 

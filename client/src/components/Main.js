@@ -21,6 +21,8 @@ import AddExperience from './profile-setup/AddExperience';
 import AddEducation from './profile-setup/AddEducation';
 import Profiles from './profiles/Profiles';
 import Profile from './profile/Profile';
+import Posts from './posts/Posts';
+import Post from './post/Post';
 import NotFound from './profile/NotFound';
 import './Main.css';
 
@@ -38,7 +40,7 @@ if (localStorage.jwtToken) {
 		// Logout user
 		store.dispatch(logoutUser());
 		// Clear current Profile
-		store.dispatch(clearCurrentProfile);
+		store.dispatch(clearCurrentProfile());
 		// Redirect to login
 		window.location.href = '/login';
 	}
@@ -132,6 +134,25 @@ function Main(props) {
 						path="/add-education"
 						component={AddEducation}
 						{...props}
+					/>
+				</Switch>
+				<Switch>
+					<PrivateRoute
+						exact
+						path="/feed"
+						component={Posts}
+						{...props}
+					/>
+				</Switch>
+				<Switch>
+					<Route
+						exact
+						path="/post/:id"
+						render={({ match }) => (
+							<div>
+								<PrivateRoute {...props} match={match} component={Post} />
+							</div>
+						)}
 					/>
 				</Switch>
 				<Route

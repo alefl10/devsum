@@ -22,13 +22,14 @@ const TextAreaFieldGroup = ({ name, placeholder, value, error, info, onChange })
 TextAreaFieldGroup.propTypes = {
 	name: PropTypes.string.isRequired,
 	placeholder: PropTypes.string,
-	value: PropTypes.string.isRequired,
+	value: PropTypes.string,
 	info: PropTypes.string,
 	error: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 };
 
 TextAreaFieldGroup.defaultProps = {
+	value: undefined,
 	placeholder: null,
 	info: null,
 	error: null,
