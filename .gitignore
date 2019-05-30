@@ -6,7 +6,6 @@
 
 # private
 src/config/private_dev.js
-src/config/private_prod.js
 
 # testing
 /coverage
