@@ -1,5 +1,6 @@
 if (process.env.NODE_ENV === 'production') {
 	const prod = require('./private_prod');
+
 	module.exports = {
 		dbURI: prod.dbURI,
 		PORT: prod.PORT,
@@ -7,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 	};
 } else {
 	const dev = require('./private_dev');
+
 	module.exports = {
 		dbURI: dev.dbURI,
 		PORT: dev.PORT,
