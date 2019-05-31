@@ -19,10 +19,6 @@ app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 app.use('/api/users', users);
 
-console.log('hello');
-console.log(path.resolve(__dirname, '../..', 'client', 'build', 'index.html'));
-console.log(path.join(__dirname, '../..', 'client/build'));
-
 // Serve static assets if in producion
 if (process.env.NODE_ENV === 'production') {
 	// Static Folder
