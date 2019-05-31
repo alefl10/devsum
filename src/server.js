@@ -18,9 +18,9 @@ appMiddleware(app);
 if (process.env.NODE_ENV === 'production') {
 	// Static Folder
 	// eslint-disable-next-line no-undef
-	app.use(express.static(path.join(__dirname, '../', 'client/build')));
+	app.use(express.static(path.join(__dirname, '..', 'client/build')));
 	app.get('*', (req, res) => {
-		res.sendFile(path.join(__dirname, '../', 'client/build/index.html'));
+		res.sendFile(path.join(__dirname, '..', 'client/build/index.html'));
 	});
 }
 
