@@ -8,6 +8,7 @@ import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
 import Experience from './Experience';
 import Education from './Education';
+import isEmpty from '../../validation/is-empty';
 
 class Dashboard extends Component {
 	constructor(props) {
@@ -36,7 +37,7 @@ class Dashboard extends Component {
 		} else {
 			// Check if logged in user has profile data
 			const emptyProfile = Object.keys(profile).length <= 0;
-			if (!emptyProfile) {
+			if (!isEmpty(profile) || !emptyProfile) {
 				dashboardContent = (
 					<div>
 						<p className="lead text-muted">
