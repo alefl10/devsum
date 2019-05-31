@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+import isEmpty from '../../validation/is-empty';
 
 class Education extends Component {
 	constructor(props) {
@@ -20,7 +21,7 @@ class Education extends Component {
 	render() {
 		const { education: educationArr } = this.props;
 		let education;
-		if (educationArr !== null) {
+		if (educationArr !== null || educationArr.length !== 0 || isEmpty(educationArr)) {
 			education = educationArr.map(edu => (
 				<tr key={edu._id}>
 					<td>{edu.school}</td>
