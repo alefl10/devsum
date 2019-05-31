@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "client-install": "npm start --prefix client",
-    "server": "babel-node ./src/index.js",
+    "start": "babel-node ./src/index.js",
     "dev-server": "nodemon --exec babel-node ./src/index.js",
     "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build -- prefix client"
   },
   "repository": {
