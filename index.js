@@ -1,4 +1,3 @@
-import path from 'path';
 import app from './src/server';
 import { PORT } from './src/config/keys';
 
