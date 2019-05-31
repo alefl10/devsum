@@ -9,9 +9,6 @@ const app = express();
 
 appMiddleware(app);
 
-// Static Folder
-// app.use(express.static(path.join(__dirname, '../..', 'public')));
-
 // Connect to mongoose
 mongoose.connect(dbURI, { useNewUrlParser: true })
 	.then(() => console.log('MongoDB Connected...'))
