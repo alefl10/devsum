@@ -14,6 +14,13 @@ const app = express();
 
 appMiddleware(app);
 
+
+
+// Use routes
+app.use('/api/profile', profile);
+app.use('/api/posts', posts);
+app.use('/api/users', users);
+
 // Serve static assets if in producion
 if (process.env.NODE_ENV === 'production') {
 	// Static Folder
@@ -23,12 +30,6 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.join(__dirname, '..', 'client/build/index.html'));
 	});
 }
-
-
-// Use routes
-app.use('/api/profile', profile);
-app.use('/api/posts', posts);
-app.use('/api/users', users);
 
 // Error handler
 app.use((err, req, res, next) => {
