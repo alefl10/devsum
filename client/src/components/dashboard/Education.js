@@ -21,8 +21,7 @@ class Education extends Component {
 	}
 
 	render() {
-        const { education: educationArr } = this.props;
-        console.log(educationArr);
+		const { education: educationArr } = this.props;
 		let education;
 		if (educationArr !== null && educationArr !== undefined && educationArr.length !== 0 && isEmpty(educationArr)) {
 			education = educationArr.map(edu => (

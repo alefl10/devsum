@@ -14,8 +14,6 @@ const app = express();
 
 appMiddleware(app);
 
-
-
 // Use routes
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);

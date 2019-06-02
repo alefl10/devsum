@@ -39,7 +39,7 @@ class Dashboard extends Component {
 		} else {
 			// Check if logged in user has profile data
 			const emptyProfile = Object.keys(profile).length <= 0;
-			if (!isEmpty(profile) && !emptyProfile && typeof profile !== 'string') {
+			if (!isEmpty(profile) && !emptyProfile) {
 				dashboardContent = (
 					<div>
 						<p className="lead text-muted">

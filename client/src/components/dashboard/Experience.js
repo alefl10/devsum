@@ -23,7 +23,6 @@ class Experience extends Component {
 	render() {
 		const { experience: experienceArr } = this.props;
         let experience;
-        console.log(experienceArr);
 		if (experienceArr !== null && experienceArr !== undefined && experienceArr.length !== 0 && isEmpty(experienceArr)) {
 			experience = experienceArr.map(exp => (
 				<tr key={exp._id}>

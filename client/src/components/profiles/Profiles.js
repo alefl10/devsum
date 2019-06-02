@@ -24,7 +24,7 @@ class Profiles extends Component {
 			profileItems = <Spinner />;
 		} else {
 			const profilesExist = profiles.length > 0;
-			if (profilesExist && typeof profiles !== 'string') {
+			if (profilesExist) {
 				profileItems = profiles.map(profileItem => (
 					<ProfileItem key={`${profileItem.user.name}_${profileItem.user._id}`} profile={profileItem} />
 				));

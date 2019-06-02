@@ -24,7 +24,7 @@ class Posts extends Component {
 			postContent = <Spinner />;
 		} else {
 			const postsExist = posts.length > 0;
-			if (postsExist && typeof posts !== 'string') {
+			if (postsExist) {
 				postContent = <PostFeed posts={posts} />;
 			}
 		}
