@@ -12,7 +12,6 @@ const CommentFeed = (props) => {
 			key={comment._id}
 			singleComment={comment}
 			postId={postId}
-			{...props}
 		/>
 	));
 };

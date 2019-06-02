@@ -4,8 +4,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import { addExperienceAction } from '../../redux/actions/profileActions';
 
 class AddExperience extends Component {
 	constructor(props) {
@@ -142,4 +144,8 @@ AddExperience.propTypes = {
 	errors: PropTypes.shape({}).isRequired,
 };
 
-export default AddExperience;
+const mapStateToProps = state => ({ errors: state.errors });
+const mapDispatchToProps = { addExperience: addExperienceAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddExperience);
+

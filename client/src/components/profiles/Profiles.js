@@ -3,8 +3,11 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getProfilesAction } from '../../redux/actions/profileActions';
 import Spinner from '../common/Spinner';
 import ProfileItem from './ProfileItem';
+import isEmpty from '../../validation/is-empty';
 
 class Profiles extends Component {
 	componentDidMount() {
@@ -17,7 +20,7 @@ class Profiles extends Component {
 		const { profiles, loading } = profile;
 		let profileItems;
 
-		if (profiles === null || loading) {
+		if (profiles === null || loading || isEmpty(profile)) {
 			profileItems = <Spinner />;
 		} else {
 			const profilesExist = profiles.length > 0;
@@ -52,4 +55,7 @@ Profiles.propTypes = {
 	getProfiles: PropTypes.func.isRequired,
 };
 
-export default Profiles;
+const mapStateToProps = state => ({ profile: state.profile });
+const mapDispatchToProps = { getProfiles: getProfilesAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profiles);

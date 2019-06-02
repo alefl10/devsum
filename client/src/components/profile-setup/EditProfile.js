@@ -4,11 +4,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import isEmpty from '../../validation/is-empty';
+import { createProfileAction, getCurrentProfileAction } from '../../redux/actions/profileActions';
 
 class CreateProfile extends Component {
 	constructor(props) {
@@ -303,10 +305,15 @@ CreateProfile.propTypes = {
 	errors: PropTypes.shape({}).isRequired,
 	createProfile: PropTypes.func.isRequired,
 	getCurrentProfile: PropTypes.func.isRequired,
-	clearErrors: PropTypes.func.isRequired,
 	history: PropTypes.shape({}).isRequired,
 };
 
 CreateProfile.default = { profile: PropTypes.shape({ profile: null }).isRequired };
 
-export default CreateProfile;
+const mapStateToProps = state => ({ profile: state.profile, errors: state.errors });
+const mapDispatchToProps = {
+	createProfile: createProfileAction,
+	getCurrentProfile: getCurrentProfileAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);

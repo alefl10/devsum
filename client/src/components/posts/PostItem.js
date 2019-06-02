@@ -3,8 +3,10 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
+import { deletePostAction, likeUnlikeAction } from '../../redux/actions/postActions';
 
 class PostItem extends Component {
 	constructor(props) {
@@ -74,11 +76,14 @@ PostItem.defaultProps = { showActions: true };
 
 PostItem.propTypes = {
 	profile: PropTypes.shape({}).isRequired,
+	auth: PropTypes.shape({}).isRequired,
+	singlePost: PropTypes.shape({}).isRequired,
 	deletePost: PropTypes.func.isRequired,
 	likeUnlike: PropTypes.func.isRequired,
 	showActions: PropTypes.bool,
-	singlePost: PropTypes.shape({}).isRequired,
-	auth: PropTypes.shape({}).isRequired,
 };
 
-export default PostItem;
+const mapStateToProps = state => ({ profile: state.profile, auth: state.auth });
+const mapDispatchToProps = { deletePost: deletePostAction, likeUnlike: likeUnlikeAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostItem);

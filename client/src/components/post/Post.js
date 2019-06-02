@@ -5,10 +5,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Spinner from '../common/Spinner';
 import PostItem from '../posts/PostItem';
 import CommentForm from './CommentForm';
 import CommentFeed from './CommentFeed';
+import { getPostAction } from '../../redux/actions/postActions';
 
 class Post extends Component {
 	componentDidMount() {
@@ -26,9 +28,9 @@ class Post extends Component {
 		} else {
 			postContent = (
 				<div>
-					<PostItem singlePost={post} showActions={false} {...this.props} />
-					<CommentForm postId={post._id} {...this.props} />
-					<CommentFeed postId={post._id} comments={post.comments} {...this.props} />
+					<PostItem singlePost={post} showActions={false} />
+					<CommentForm postId={post._id} />
+					<CommentFeed postId={post._id} comments={post.comments} />
 				</div>
 			);
 		}
@@ -58,4 +60,7 @@ Post.propTypes = {
 	}).isRequired,
 };
 
-export default Post;
+const mapStateToProps = state => ({ post: state.post });
+const mapDispatchToProps = { getPost: getPostAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

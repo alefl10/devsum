@@ -3,6 +3,8 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { deleteCommentAction } from '../../redux/actions/postActions';
 
 class CommentItem extends Component {
 	constructor(props) {
@@ -51,4 +53,7 @@ CommentItem.propTypes = {
 	auth: PropTypes.shape({}).isRequired,
 };
 
-export default CommentItem;
+const mapStateToProps = state => ({ auth: state.auth });
+const mapDispatchToProps = { deleteComment: deleteCommentAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentItem);

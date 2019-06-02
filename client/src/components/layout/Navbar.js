@@ -3,6 +3,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logoutUserAction } from '../../redux/actions/authActions';
+import { clearCurrentProfileAction } from '../../redux/actions/profileActions';
 
 class Navbar extends Component {
 	constructor() {
@@ -12,14 +15,14 @@ class Navbar extends Component {
 
 	onLogoutClick(e) {
 		e.preventDefault();
-		const { clearCurrentProfile, logoutUser, history } = this.props;
+		const { clearCurrentProfile, logoutUser } = this.props;
 		clearCurrentProfile();
-		logoutUser(history);
+		logoutUser();
 	}
 
 	render() {
-		// eslint-disable-next-line react/destructuring-assignment
-		const { isAuthenticated, user } = this.props.auth;
+		const { auth } = this.props;
+		const { isAuthenticated, user } = auth;
 		const authLinks = (
 			<ul className="navbar-nav ml-auto">
 				<li className="nav-item">
@@ -87,7 +90,12 @@ Navbar.propTypes = {
 		isAuthenticated: PropTypes.bool.isRequired,
 		user: PropTypes.shape({}).isRequired,
 	}).isRequired,
-	history: PropTypes.shape({}).isRequired,
 };
 
-export default Navbar;
+const mapStateToProps = state => ({ auth: state.auth });
+const mapDispatchToProps = {
+	logoutUser: logoutUserAction,
+	clearCurrentProfile: clearCurrentProfileAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

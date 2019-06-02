@@ -2,6 +2,8 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUserAction } from '../../redux/actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 
 class Login extends Component {
@@ -43,8 +45,7 @@ class Login extends Component {
 		e.preventDefault();
 		const { email, password } = this.state;
 		const userData = { email, password };
-		const { loginUser, clearErrors } = this.props;
-		clearErrors();
+		const { loginUser } = this.props;
 		loginUser(userData);
 	}
 
@@ -86,10 +87,12 @@ class Login extends Component {
 
 Login.propTypes = {
 	loginUser: PropTypes.func.isRequired,
-	clearErrors: PropTypes.func.isRequired,
 	errors: PropTypes.shape({}).isRequired,
 	history: PropTypes.shape({}).isRequired,
 	auth: PropTypes.shape({ isAuthenticated: PropTypes.bool.isRequired }).isRequired,
 };
 
-export default Login;
+const mapStateToProps = state => ({ auth: state.auth, errors: state.errors });
+const mapDispatchToProps = { loginUser: loginUserAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

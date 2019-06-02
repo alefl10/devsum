@@ -4,8 +4,10 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import isEmpty from '../../validation/is-empty';
+import { deleteExperienceAction } from '../../redux/actions/profileActions';
 
 class Experience extends Component {
 	constructor(props) {
@@ -62,4 +64,6 @@ Experience.propTypes = {
 	experience: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
 };
 
-export default Experience;
+const mapDispatchToProps = { deleteExperience: deleteExperienceAction };
+
+export default connect(null, mapDispatchToProps)(Experience);

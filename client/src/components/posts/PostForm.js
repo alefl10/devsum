@@ -3,7 +3,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import { addPostAction } from '../../redux/actions/postActions';
 
 class PostForm extends Component {
 	constructor(props) {
@@ -29,10 +31,9 @@ class PostForm extends Component {
 	onSubmit(e) {
 		e.preventDefault();
 		const { text } = this.state;
-		const { auth, addPost, clearErrors } = this.props;
+		const { auth, addPost } = this.props;
 		const { name, avatar } = auth.user;
 		const newPost = { name, avatar, text };
-		clearErrors();
 		addPost(newPost);
 		this.setState({ text: '' });
 	}
@@ -71,9 +72,11 @@ class PostForm extends Component {
 
 PostForm.propTypes = {
 	addPost: PropTypes.func.isRequired,
-	clearErrors: PropTypes.func.isRequired,
 	auth: PropTypes.shape({}).isRequired,
 	errors: PropTypes.shape({}).isRequired,
 };
 
-export default PostForm;
+const mapStateToProps = state => ({ auth: state.auth, errors: state.errors });
+const mapDispatchToProps = { addPost: addPostAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);

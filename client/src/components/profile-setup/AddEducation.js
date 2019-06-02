@@ -4,6 +4,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addEducationAction } from '../../redux/actions/profileActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 
@@ -142,4 +144,7 @@ AddEducation.propTypes = {
 	errors: PropTypes.shape({}).isRequired,
 };
 
-export default AddEducation;
+const mapStateToProps = state => ({ errors: state.errors });
+const mapDispatchToProps = { addEducation: addEducationAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddEducation);

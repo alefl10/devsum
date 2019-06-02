@@ -4,8 +4,10 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import isEmpty from '../../validation/is-empty';
+import { deleteAccountAction } from '../../redux/actions/profileActions';
 
 class Education extends Component {
 	constructor(props) {
@@ -62,4 +64,6 @@ Education.propTypes = {
 	education: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
 };
 
-export default Education;
+const mapDispatchToProps = { deleteEducation: deleteAccountAction };
+
+export default connect(null, mapDispatchToProps)(Education);

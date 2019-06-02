@@ -4,11 +4,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import ProfileHeader from './ProfileHeader';
 import ProfileAbout from './ProfileAbout';
 import ProfileCreds from './ProfileCreds';
 import ProfileGithub from './ProfileGithub';
 import Spinner from '../common/Spinner';
+import { getProfileByHandleAction } from '../../redux/actions/profileActions';
 import isEmpty from '../../validation/is-empty';
 
 class Profile extends Component {
@@ -79,4 +81,7 @@ Profile.propTypes = {
 	history: PropTypes.shape({}).isRequired,
 };
 
-export default Profile;
+const mapStateToProps = state => ({ profile: state.profile });
+const mapDispatchToProps = { getProfileByHandle: getProfileByHandleAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

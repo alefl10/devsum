@@ -3,12 +3,14 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
 import Experience from './Experience';
 import Education from './Education';
 import isEmpty from '../../validation/is-empty';
+import { getCurrentProfileAction, deleteAccountAction } from '../../redux/actions/profileActions';
 
 class Dashboard extends Component {
 	constructor(props) {
@@ -30,7 +32,7 @@ class Dashboard extends Component {
 		const { user } = this.props.auth;
 		const { profile, loading } = this.props.profile;
 
-        let dashboardContent;
+		let dashboardContent;
 
 		if (profile === null || loading) {
 			dashboardContent = <Spinner />;
@@ -89,6 +91,11 @@ Dashboard.propTypes = {
 	deleteAccount: PropTypes.func.isRequired,
 };
 
-Dashboard.default = { profile: PropTypes.shape({ profile: null }) };
+const mapStateToProps = state => ({ auth: state.auth, profile: state.profile });
+const mapDispatchToProps = {
+	getCurrentProfile: getCurrentProfileAction,
+	deleteAccount: deleteAccountAction,
+};
 
-export default Dashboard;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

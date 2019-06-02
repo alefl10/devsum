@@ -56,7 +56,7 @@ const controller = {
 		}
 
 		const { email } = req.body;
-		User.findOne({ email })
+		User.findOne({ email: email.toLowerCase() })
 			.then((user) => {
 				if (user) {
 					errors.email = 'Email already exists';
@@ -72,7 +72,7 @@ const controller = {
 							});
 							const newUser = new User({
 								name,
-								email,
+								email: email.toLowerCase(),
 								password: hashedPassword,
 								avatar,
 							});
@@ -108,7 +108,7 @@ const controller = {
 		const { email, password } = req.body;
 
 		// Find user by email
-		User.findOne({ email })
+		User.findOne({ email: email.toLowerCase() })
 			.then((user) => {
 				if (!user) {
 					res.status(404).json({ email: 'User not found' });

@@ -2,6 +2,9 @@
 /* eslint-disable react/jsx-indent */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { registerUserAction } from '../../redux/actions/authActions';
+
 import TextFieldGroup from '../common/TextFieldGroup';
 
 class Register extends Component {
@@ -36,9 +39,7 @@ class Register extends Component {
 		e.preventDefault();
 		const { name, email, password, password2 } = this.state;
 		const newUser = { name, email, password, password2 };
-		const { registerUser, clearErrors, history } = this.props;
-
-		clearErrors();
+		const { registerUser, history } = this.props;
 		registerUser(newUser, history);
 	}
 
@@ -103,7 +104,6 @@ class Register extends Component {
 
 Register.propTypes = {
 	registerUser: PropTypes.func.isRequired,
-	clearErrors: PropTypes.func.isRequired,
 	auth: PropTypes.shape({
 		isAuthenticated: PropTypes.bool.isRequired,
 		user: PropTypes.shape({}).isRequired,
@@ -112,5 +112,7 @@ Register.propTypes = {
 	history: PropTypes.shape({}).isRequired,
 };
 
+const mapStateToProps = state => ({ auth: state.auth, errors: state.errors });
+const mapDispatchToProps = { registerUser: registerUserAction };
 
-export default Register;
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

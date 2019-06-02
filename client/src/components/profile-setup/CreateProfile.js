@@ -3,10 +3,12 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
+import { createProfileAction } from '../../redux/actions/profileActions';
 
 class CreateProfile extends Component {
 	constructor(props) {
@@ -40,7 +42,7 @@ class CreateProfile extends Component {
 
 	onSubmit(e) {
 		e.preventDefault();
-		const { createProfile, clearErrors, history }	= this.props;
+		const { createProfile, history }	= this.props;
 		// eslint-disable-next-line max-len
 		const { handle, status, company, website, location, skills, githubUsername, bio, twitter, facebook, linkedin, youtube, instagram } = this.state;
 		const profileData = {
@@ -58,7 +60,6 @@ class CreateProfile extends Component {
 			youtube,
 			instagram,
 		};
-		clearErrors();
 		createProfile(profileData, history);
 	}
 
@@ -250,8 +251,10 @@ CreateProfile.propTypes = {
 	profile: PropTypes.shape({}).isRequired,
 	errors: PropTypes.shape({}).isRequired,
 	createProfile: PropTypes.func.isRequired,
-	clearErrors: PropTypes.func.isRequired,
 	history: PropTypes.shape({}).isRequired,
 };
 
-export default CreateProfile;
+const mapStateToProps = state => ({ profile: state.profile, errors: state.errors });
+const mapDispatchToProps = { createProfile: createProfileAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);
