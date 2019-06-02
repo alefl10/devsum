@@ -23,7 +23,10 @@ class Posts extends Component {
 		if (posts === null || loading) {
 			postContent = <Spinner />;
 		} else {
-			postContent = <PostFeed posts={posts} />;
+			const postsExist = posts.length > 0;
+			if (postsExist && typeof posts !== 'string') {
+				postContent = <PostFeed posts={posts} />;
+			}
 		}
 
 		return (
