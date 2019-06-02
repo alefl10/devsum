@@ -6,8 +6,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
-import isEmpty from '../../validation/is-empty';
-import { deleteAccountAction } from '../../redux/actions/profileActions';
+import { deleteEducationAction } from '../../redux/actions/profileActions';
 
 class Education extends Component {
 	constructor(props) {
@@ -23,7 +22,7 @@ class Education extends Component {
 	render() {
 		const { education: educationArr } = this.props;
 		let education;
-		if (educationArr !== null && educationArr !== undefined && educationArr.length !== 0 && isEmpty(educationArr)) {
+		if (educationArr !== null) {
 			education = educationArr.map(edu => (
 				<tr key={edu._id}>
 					<td>{edu.school}</td>
@@ -64,6 +63,6 @@ Education.propTypes = {
 	education: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
 };
 
-const mapDispatchToProps = { deleteEducation: deleteAccountAction };
+const mapDispatchToProps = { deleteEducation: deleteEducationAction };
 
 export default connect(null, mapDispatchToProps)(Education);
